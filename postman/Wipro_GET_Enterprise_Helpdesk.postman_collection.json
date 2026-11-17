@@ -1,0 +1,161 @@
+{
+  "info": {
+    "name": "Wipro GET - Enterprise Helpdesk API",
+    "_postman_id": "d1a4b550-4a1a-47d8-b1c2-7f5d9d10f001",
+    "description": "API test collection with expected vs actual assertions.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "ticketId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Create Ticket",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"VPN connectivity issue\", \"description\": \"Unable to connect to the corporate VPN.\", \"requesterEmail\": \"analyst@example.com\", \"priority\": \"HIGH\", \"category\": \"Network\"}"
+        },
+        "url": "{{baseUrl}}/api/v1/tickets"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Expected: HTTP 201', () => pm.response.to.have.status(201));",
+              "const body = pm.response.json();",
+              "pm.test('Actual: status is OPEN', () => pm.expect(body.status).to.eql('OPEN'));",
+              "pm.collectionVariables.set('ticketId', body.id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get Ticket",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/tickets/{{ticketId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Expected: HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Actual: ticket id exists', () => pm.expect(pm.response.json().id).to.be.a('number'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Update Ticket",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"status\": \"IN_PROGRESS\", \"priority\": \"CRITICAL\", \"assignee\": \"support-agent-01\"}"
+        },
+        "url": "{{baseUrl}}/api/v1/tickets/{{ticketId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Expected: HTTP 200', () => pm.response.to.have.status(200));",
+              "const body = pm.response.json();",
+              "pm.test('Actual: status is IN_PROGRESS', () => pm.expect(body.status).to.eql('IN_PROGRESS'));",
+              "pm.test('Actual: assignee is set', () => pm.expect(body.assignee).to.eql('support-agent-01'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Filter by Status",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/tickets?status=IN_PROGRESS"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Expected: HTTP 200', () => pm.response.to.have.status(200));",
+              "pm.test('Actual: response is an array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Validation Error",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"\", \"description\": \"Missing title should fail validation.\", \"requesterEmail\": \"bad-email\", \"priority\": \"HIGH\", \"category\": \"Network\"}"
+        },
+        "url": "{{baseUrl}}/api/v1/tickets"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Expected: HTTP 400', () => pm.response.to.have.status(400));",
+              "pm.test('Actual: VALIDATION_ERROR', () => pm.expect(pm.response.json().error).to.eql('VALIDATION_ERROR'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete Ticket",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/tickets/{{ticketId}}"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Expected: HTTP 204', () => pm.response.to.have.status(204));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
