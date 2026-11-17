@@ -1,13 +1,8 @@
-# Wipro GET - Enterprise Service Desk & Ticket Management System
+# Enterprise Service Desk & Ticket Management System
 
-A resume-ready Java backend project designed to demonstrate the core engineering and testing skills that appear in current Wipro Java/GET-oriented job descriptions.
-
-## Why this project fits the target role
-
-Current Wipro postings reference Java, Spring/Spring Boot, SQL, Git, CI/CD, REST APIs, and unit/integration testing; testing-focused roles also call out test data, test execution, expected-vs-actual results, API testing, and automation. This project demonstrates those concepts in one coherent application.
 
 ## Tech Stack
-
+a
 - Java 17
 - Spring Boot
 - Spring Web / REST
