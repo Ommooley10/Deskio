@@ -2,7 +2,6 @@
 
 
 ## Tech Stack
-a
 - Java 17
 - Spring Boot
 - Spring Web / REST
