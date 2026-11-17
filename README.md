@@ -116,38 +116,5 @@ docker run --rm -p 8080:8080 enterprise-helpdesk:1.0
 
 Note: the container expects MySQL to be reachable via the configured DB environment variables when run outside the Compose network.
 
-## Suggested Git workflow
 
-```bash
-git init
-git add .
-git commit -m "Initial enterprise helpdesk project"
-git branch -M main
-git remote add origin <your-github-repository>
-git push -u origin main
-```
 
-## Interview talking points
-
-1. Explain why a service layer sits between controller and repository.
-2. Explain dependency injection in Spring.
-3. Explain JPA entity mapping and why enums use `EnumType.STRING`.
-4. Explain the difference between unit, integration, and API testing.
-5. Explain Mockito mocks vs H2 repository tests.
-6. Explain HTTP 201, 200, 204, 400, and 404.
-7. Explain validation using `@Valid` and Bean Validation.
-8. Explain how the CI workflow runs tests before packaging.
-9. Explain why production systems should add authentication, authorization, audit logging, secrets management, and observability.
-
-## Resume bullet
-
-**Enterprise Service Desk & Ticket Management System | Java, Spring Boot, REST, MySQL, JPA, JUnit, Mockito, Swagger, Postman, Docker, GitHub Actions**
-
-- Developed a layered Spring Boot REST API for enterprise ticket lifecycle management using Java 17, Spring Data JPA and MySQL.
-- Implemented request validation, exception handling, filtering, status/priority workflows and Swagger/OpenAPI documentation.
-- Built unit, controller/API and repository tests using JUnit 5, Mockito, MockMvc and H2; added Postman assertions for expected-vs-actual API validation.
-- Added Docker Compose for MySQL and GitHub Actions CI to run automated tests and Maven builds.
-
-## Production-hardening roadmap
-
-For an actual enterprise deployment, add Spring Security/JWT, role-based access control, audit history, pagination, centralized logging, monitoring, secret management, database migrations with Flyway, integration-test containers, and deployment to a cloud platform.
